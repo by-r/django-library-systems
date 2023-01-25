@@ -2,11 +2,16 @@
 
 Library systems to utilize Django Framework, with basic CRUD functions and additional features to be updated.
 
+- Framework: Django 4 (Python)
+- UI Library : Bootstrap 5.2.3
+  
 ## Features
 
 - Create, Read, Update, Delete Book Info (Main Function)
 
 - Minimalistic UI
+
+## To be added
 
 - Cataloging: The ability to catalog books, periodicals, and other materials using standard metadata fields such as author, title, and ISBN. [currently working on]
 
@@ -17,4 +22,3 @@ Library systems to utilize Django Framework, with basic CRUD functions and addit
 - Searching: The ability to search the catalog by various criteria, such as author, title, and subject. [in progress]
 
 - Reporting: The ability to generate reports on circulation statistics, popular materials, and overdue items. [in progress]
-
