@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}{{book.title}}{% endblock title %}
+
+{% block content %}
+<h1>Detail for {{book.title}}</h1>
+{{book}} - 
+{% for genre in book.genre.all %}
+{{genre.name}}
+{% endfor %}
+{% endblock content %}

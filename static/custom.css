@@ -1,0 +1,22 @@
+main {
+	min-height: 80vh;
+	height: 50%;
+}
+
+.card-container {
+	display: flex;
+	align-self: center;
+	margin: 30vh;
+}
+
+.card-container tr td {
+	margin: 5px;
+}
+
+.card-container .btn {
+	margin: 15px;
+}
+
+.content {
+	margin: 30vh;
+}
