@@ -22,3 +22,7 @@ Library systems to utilize Django Framework, with basic CRUD functions and addit
 - Searching: The ability to search the catalog by various criteria, such as author, title, and subject. [in progress]
 
 - Reporting: The ability to generate reports on circulation statistics, popular materials, and overdue items. [in progress]
+
+## Current Identified Problems
+
+- UI Side: Footer Overlapping with content when minimized 
