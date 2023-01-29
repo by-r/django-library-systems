@@ -68,6 +68,6 @@ class UserListView(PermissionRequiredMixin, ListView):
 
 class BookListView(ListView):
     model = Book, Genre
-    queryset = Book.objects.order_by('isbn')
+    queryset = Book.objects.order_by('title')
     paginate_by = 10
     context_object_name = 'book_list'
