@@ -4,5 +4,5 @@ from .views import *
 app_name = 'user'
 
 urlpatterns = [
-    path("", UserListView.as_view(), name="profile")
+    path("<str:username>/", UserListView.as_view(), name="profile"),
 ]

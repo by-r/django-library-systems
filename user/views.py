@@ -13,5 +13,14 @@ class UserListView(PermissionRequiredMixin, ListView):
     template_name = "user/profile.html"
     paginate_by = 5
 
+    def get(self, request, username):
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        # Get the user object for the profile
+        user = User.objects.get(username=username)
+        # Render the profile page template with the user information
+        return render(request, 'user/profile.html', {'user': user})
+
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user)
