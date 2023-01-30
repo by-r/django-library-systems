@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 class User(models.Model):
     username = models.CharField(max_length=50)
+    is_staff = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

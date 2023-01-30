@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from catalog.models import BookInstance
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 # Create your views here.
 
 
-class UserListView(PermissionRequiredMixin, ListView):
+class UserListView(LoginRequiredMixin, ListView):
     permission_required = 'login'
     model = User
     template_name = "user/profile.html"
