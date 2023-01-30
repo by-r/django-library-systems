@@ -14,4 +14,7 @@ urlpatterns = [
     path("profile/", views.CheckoutBookListView.as_view(), name="profile"),
     path("user/", views.UserListView.as_view(), name="user_list"),
     path("book_list/", views.BookListView.as_view(), name="book_list"),
+    path("book/<int:book_instance_id>/borrow/",
+         views.borrow_book, name="book_borrow"),
+    path("book/<int:borrow_id>/return/", views.return_book, name="book_return"),
 ]

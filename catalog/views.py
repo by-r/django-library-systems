@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, Author, BookInstance, Genre, Language
 from django.views.generic import CreateView, DetailView, ListView, TemplateView
 from django.contrib.auth.decorators import login_required
@@ -71,3 +71,37 @@ class BookListView(ListView):
     queryset = Book.objects.order_by('title')
     paginate_by = 10
     context_object_name = 'book_list'
+
+
+@login_required
+def borrow_book(request, book_instance_id):
+    book_instance = get_object_or_404(BookInstance, pk=book_instance_id)
+    if book_instance.status != 'a':
+        # Book is not available for borrowing
+        return redirect('catalog:book_list')
+
+    # Update the status of the book instance to on loan
+    book_instance.status = 'o'
+    book_instance.save()
+
+    # Create a Borrow object
+    borrow = Borrow.objects.create(user=request.user, book_instance=book_instance, date_borrowed=datetime.datetime.now(
+    ), due_back=datetime.datetime.now() + datetime.timedelta(weeks=2))
+
+    return redirect('catalog:book_list')
+
+
+@login_required
+def return_book(request, borrow_id):
+    borrow = get_object_or_404(Borrow, pk=borrow_id)
+    book_instance = borrow.book_instance
+
+    # Update the status of the book instance to available
+    book_instance.status = 'a'
+    book_instance.save()
+
+    # Update the returned field in the Borrow object
+    borrow.returned = True
+    borrow.save()
+
+    return redirect('catalog:book_list')
