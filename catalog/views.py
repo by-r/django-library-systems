@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, Author, BookInstance, Genre, Language
-from django.views.generic import CreateView, DetailView, ListView, TemplateView
+from django.views.generic import View, CreateView, DetailView, ListView, TemplateView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -73,35 +73,32 @@ class BookListView(ListView):
     context_object_name = 'book_list'
 
 
-@login_required
-def borrow_book(request, book_instance_id):
-    book_instance = get_object_or_404(BookInstance, pk=book_instance_id)
-    if book_instance.status != 'a':
-        # Book is not available for borrowing
-        return redirect('catalog:book_list')
+class BorrowBookView(LoginRequiredMixin, View):
+    template_name = 'catalog/book_borrow.html'
+    model = BookInstance
 
-    # Update the status of the book instance to on loan
-    book_instance.status = 'o'
-    book_instance.save()
+    def get(self, request, pk):
+        book_instance = BookInstance.objects.get(pk=pk)
+        book_instance.borrower = request.user
+        book_instance.status = 'o'
+        book_instance.save()
+        return redirect('catalog:profile')
 
-    # Create a Borrow object
-    borrow = Borrow.objects.create(user=request.user, book_instance=book_instance, date_borrowed=datetime.datetime.now(
-    ), due_back=datetime.datetime.now() + datetime.timedelta(weeks=2))
+    def post(self, request, *args, **kwargs):
+        book_instance = BookInstance.objects.get(pk=pk)
+        book_instance.borrower = request.user
+        book_instance.status = 'o'
+        book_instance.save()
+        return HttpResponseRedirect(reverse("catalog:book_detail", kwargs={"pk": self.book_instance.pk}))
 
-    return redirect('catalog:book_list')
 
+class ReturnBookView(View):
+    template_name = 'catalog/book_return.html'
+    model = BookInstance
 
-@login_required
-def return_book(request, borrow_id):
-    borrow = get_object_or_404(Borrow, pk=borrow_id)
-    book_instance = borrow.book_instance
-
-    # Update the status of the book instance to available
-    book_instance.status = 'a'
-    book_instance.save()
-
-    # Update the returned field in the Borrow object
-    borrow.returned = True
-    borrow.save()
-
-    return redirect('catalog:book_list')
+    def get(self, request, pk):
+        book_instance = BookInstance.objects.get(pk=pk)
+        book_instance.borrower = None
+        book_instance.status = 'a'
+        book_instance.save()
+        return redirect('catalog:profile')

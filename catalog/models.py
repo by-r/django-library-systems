@@ -100,14 +100,3 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
-
-
-class Borrow(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book_instance = models.ForeignKey(BookInstance, on_delete=models.CASCADE)
-    date_borrowed = models.DateField()
-    due_back = models.DateField()
-    returned = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.book_instance

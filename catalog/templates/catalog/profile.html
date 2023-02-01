@@ -7,7 +7,7 @@
     <h1>Welcome to your profile, {{user.get_username}}</h1>
     <h2>Here are you books checked out: </h2>
 
-    {% for book in bookinstance_list %}
+    {% for book in bookinstance_all %}
         <p>{{book}}</p>
     {% endfor %}
 </div>

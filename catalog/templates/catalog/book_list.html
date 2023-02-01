@@ -9,22 +9,18 @@
             <th>ISBN</th>
             <th>Book Name</th>
             <th>Genre</th>
-            <th>Borrow</th>
-            <th>Return</th>
     </tr>
     </thead>
     <tbody>
     {% for book in book_list %}
     <tr>
         <td>{{book.isbn}}</td>
-        <td>{{book.title}}</td>
+        <td><a href="{% url 'catalog:book_detail' book.id %}">{{book.title}}</a></td>
         <td>
         {% for genre in book.genre.all %}
         {{genre.name}}
         {% endfor %}
         </td>
-        <td><a href="{% url 'catalog:book_borrow' book.isbn %}">Borrow</a></td>
-        <td><a href="{% url 'catalog:book_return' book.isbn %}">Return</a></td>
     </tr>
     {% empty%}
     <tr>
