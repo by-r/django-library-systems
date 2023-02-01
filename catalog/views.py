@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Book, Author, BookInstance, Genre, Language
-from django.views.generic import CreateView, DetailView, ListView, TemplateView
+from django.views.generic import View, CreateView, DetailView, ListView, TemplateView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -71,3 +71,34 @@ class BookListView(ListView):
     queryset = Book.objects.order_by('title')
     paginate_by = 10
     context_object_name = 'book_list'
+
+
+class BorrowBookView(LoginRequiredMixin, View):
+    template_name = 'catalog/book_borrow.html'
+    model = BookInstance
+
+    def get(self, request, pk):
+        book_instance = BookInstance.objects.get(pk=pk)
+        book_instance.borrower = request.user
+        book_instance.status = 'o'
+        book_instance.save()
+        return redirect('catalog:profile')
+
+    def post(self, request, *args, **kwargs):
+        book_instance = BookInstance.objects.get(pk=pk)
+        book_instance.borrower = request.user
+        book_instance.status = 'o'
+        book_instance.save()
+        return HttpResponseRedirect(reverse("catalog:book_detail", kwargs={"pk": self.book_instance.pk}))
+
+
+class ReturnBookView(View):
+    template_name = 'catalog/book_return.html'
+    model = BookInstance
+
+    def get(self, request, pk):
+        book_instance = BookInstance.objects.get(pk=pk)
+        book_instance.borrower = None
+        book_instance.status = 'a'
+        book_instance.save()
+        return redirect('catalog:profile')

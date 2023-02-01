@@ -7,4 +7,11 @@
 {% for genre in book.genre.all %}
 {{genre.name}}
 {% endfor %}
+<td>
+    <form action="{% url 'catalog:book_borrow' book.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Borrow">
+    </form>
+</td>
+<td><a href="{% url 'catalog:book_return' book.id %}">Return</a></td>
 {% endblock content %}
