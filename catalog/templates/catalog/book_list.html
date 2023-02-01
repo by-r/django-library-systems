@@ -7,15 +7,15 @@
     <thead>
         <tr>
             <th>ISBN</th>
-            <th>Book Name</th>
+            <th>Book</th>
             <th>Genre</th>
-    </tr>
+        </tr>
     </thead>
     <tbody>
     {% for book in book_list %}
     <tr>
         <td>{{book.isbn}}</td>
-        <td><a href="{% url 'catalog:book_detail' book.id %}">{{book.title}}</a></td>
+        <td><img src="http://via.placeholder.com/128x128" alt=""><a class="text-reset text-decoration-none" href="{% url 'catalog:book_detail' book.id %}">{{book.title}}</a></td>
         <td>
         {% for genre in book.genre.all %}
         {{genre.name}}
