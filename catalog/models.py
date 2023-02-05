@@ -83,7 +83,7 @@ class BookInstance(models.Model):
     )
 
     status = models.CharField(
-        max_length=1, choices=LOAN_STATUS, blank=True, default='m')
+        max_length=1, choices=LOAN_STATUS, blank=True, default='a')
 
     class Meta:
         ordering = ['due_back']
@@ -93,10 +93,3 @@ class BookInstance(models.Model):
 
     def get_absolute_url(self):
         return reverse("catalog:bookInstance_detail", kwargs={"pk": self.pk})
-
-
-class User(models.Model):
-    username = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.username
