@@ -102,3 +102,19 @@ class ReturnBookView(View):
         book_instance.status = 'a'
         book_instance.save()
         return redirect('catalog:profile')
+
+
+class SearchView(ListView):
+    model = Book
+    template_name = 'catalog/book_search.html'
+    context_object_name = 'all_search_results'
+
+    def get_queryset(self):
+        result = super(SearchView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            postresult = Book.objects.filter(title__contains=query)
+            result = postresult
+        else:
+            result = None
+        return result
