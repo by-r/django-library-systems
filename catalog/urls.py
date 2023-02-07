@@ -31,4 +31,6 @@ urlpatterns = [
          views.BorrowBookView.as_view(), name="book_borrow"),
     path("book_list/book/<int:pk>/return/",
          views.ReturnBookView.as_view(), name="book_return"),
+
+    path('book_list/search', views.SearchView.as_view(), name='book_search'),
 ]

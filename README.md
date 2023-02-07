@@ -25,4 +25,4 @@ Library systems to utilize Django Framework, with basic CRUD functions and addit
 
 ## Current Identified Problems
 
-- UI Side: Footer Overlapping with content when minimized 
+- None

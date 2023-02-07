@@ -2,11 +2,31 @@
 {% block title %}Search Result{% endblock title %}Search Result
 
 {% block content %}
-    {% for product in all_search_results %}
-        <h3>{{product.title}}</h3>
-        <p>{{product.description}}</p>
-        <img src="{{ product.picture.url }}">
-    {% empty %}
-        <h2>No results found</h2>
-    {% endfor %}
+<h1>Book List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Book</th>
+            <th>Genre</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in all_search_results %}
+        <tr>
+            <td>{{book.isbn}}</td>
+            <td><img src="http://via.placeholder.com/128x128" alt=""><a class="text-reset text-decoration-none" href="{% url 'catalog:book_detail' book.id %}">{{book.title}}</a></td>
+            <td>
+            {% for genre in book.genre.all %}
+                {{genre.name}}
+            {% endfor %}
+            </td>
+        </tr>
+        {% empty %}
+            <td></td>
+            <td>No results found</td>
+            <td></td>
+        {% endfor %}        
+    </tbody> 
+</table>
 {% endblock %}
