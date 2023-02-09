@@ -19,13 +19,23 @@
                     {% endfor %}
                 </div>
                 <div class="d-flex">
-                <form action="#" method="post">
-                    {% csrf_token %}
-                    <button 
-                        type="submit" 
-                        class="btn btn-dark flex-shrink-0 " 
-                        value="{{ book.id }}">Borrow
-                    </button>
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    {% for instance in available_books %}
+                    <form action="{% url 'catalog:book_borrow' instance.book.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{instance.id}}">
+                        <p>{{instance.book}}</p>
+                        <p>{{instance.book.language.name}}</p>
+                        <input type="submit" value="Borrow this book.">
+                    </form>
+                    {% endfor %}
                 </div>
             </div>
         </div>
