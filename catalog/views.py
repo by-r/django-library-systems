@@ -114,6 +114,8 @@ class BorrowBookView(LoginRequiredMixin, View):
 
 class BookDetailView(DetailView):  # model_detail.html
     model = Book
+    slug_field = 'isbn'
+    slug_url_kwarg = 'isbn'
 
 
 class BookInstanceDetailView(DetailView):

@@ -22,7 +22,7 @@ urlpatterns = [
 
     # BOOK LIST VIEW
     path("book_list/", views.BookListView.as_view(), name="book_list"),
-    path("book_list/book/<int:pk>/",
+    path("book_list/book/<slug:isbn>/",
          views.BookDetailView.as_view(), name="book_detail"),
     path("book_list/book/book_detail/<int:pk>/",
          views.BookInstanceDetailView.as_view(), name="bookInstance_detail"),
