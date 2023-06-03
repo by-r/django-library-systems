@@ -32,8 +32,9 @@ urlpatterns = [
          views.ReturnBookView.as_view(), name="book_return"),
     path('book_list/search', views.SearchView.as_view(), name='book_search'),
 
+    # TBC
     # TEST
-    # path("book_list/book/<int:pk>/borrow", views.borrowBook, name="borrowBook"),
+    path("book_list/book/<int:pk>/test/", views.borrowBook, name="bookTest"),
     path("book_list/book/<int:pk>/borrow/",
          views.BorrowBookView.as_view(), name="book_borrow"),
 ]
