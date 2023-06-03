@@ -27,3 +27,9 @@ Library systems to utilize Django Framework, with basic CRUD functions and addit
 
 - Search bar UI not fixed : needs proper class name
 - Cataloging: Borrowing/Returning needs to be completed 
+
+## TO BE DONE
+
+- Landing Page
+- Delete/Update Button
+- TO BE ADDED
