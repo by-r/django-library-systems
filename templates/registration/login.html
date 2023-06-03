@@ -8,13 +8,13 @@
     <form method="post" action="{% url 'login' %}" class="container-fluid">
         {% csrf_token %}
         <div class="card card-container text-center container" style="width: 27rem">
-            <table class="">
+            <table>
                 <tr class="row container">
                     <th class="card">SIGN IN</th>
                 </tr>
                 <div class="card-body container ">
                     <tr>
-                        <td class="">{{ form.username.label_tag }}</td>
+                        <td>{{ form.username.label_tag }}</td>
                         <td>{{ form.username }}</td>
                     </tr>
                     {% if next %}
