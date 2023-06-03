@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
 
     'crispy_forms',
+    "crispy_bootstrap5",
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -132,3 +133,8 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
+
+# OTHER
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
