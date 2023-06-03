@@ -1,23 +1,22 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock title %}
-
+{% block title %}
+    Home
+{% endblock title %}
 {% block content %}
-<div>
-    <h1>HOME PAGE</h1>
-    <p>Total Books: {{num_books}}</p>
-    <p>Available: {{num_instances_available}}</p>
-    
-    {% if user.is_staff %}
-    <a href="{% url 'catalog:book_create' %}">Create Book</a>
-    {% endif %}
-    
-    {% if user.is_authenticated %}
-    <p>You are logged in</p>
-    <p>Welcome, {{user.get_username}}</p>
-    <a href="{% url 'logout' %}?next={{request.path}}">Logout</a>
-    {% else %}
-    <p>Not logged in</p>
-    <a href="{% url 'login' %}?next={{request.path}}">Login</a>
-    {% endif %}
-</div>
+    <div>
+        <h1>HOME PAGE</h1>
+        <p>Total Books: {{ num_books }}</p>
+        <p>Available: {{ num_instances_available }}</p>
+        {% if user.is_staff %}
+            <a href="{% url 'catalog:book_create' %}">Create Book</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <p>You are logged in</p>
+            <p>Welcome, {{ user.get_username }}</p>
+            <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+        {% else %}
+            <p>Not logged in</p>
+            <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+        {% endif %}
+    </div>
 {% endblock content %}

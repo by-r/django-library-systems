@@ -70,7 +70,7 @@ class Author(models.Model):
 class BookInstance(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     book = models.ForeignKey("Book", on_delete=models.RESTRICT, null=True)
-    imprint = models.CharField(max_length=200)
+    imprint = models.CharField(max_length=200, blank=True, null=True)
     due_back = models.DateField(blank=True, null=True)
     borrower = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True)

@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Book, Author, BookInstance, Genre, Language
 from django.views.generic import View, CreateView, DetailView, ListView, TemplateView, CreateView, UpdateView, FormView
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
+from django.contrib import messages
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import User
+
 from user.models import User
+from .models import Book, Author, BookInstance, Genre, Language
+
 from .forms import BorrowForm
 # Create your views here.
 
@@ -55,51 +61,34 @@ class BookCreateView(PermissionRequiredMixin, CreateView):  # model_form.html
     fields = '__all__'
 
 
-def borrowBook(request, pk):
+class BorrowBookView(LoginRequiredMixin, View):
+    template_name = 'catalog/book_borrow.html'
+    model = Book
 
-    context = {
-        'book_instance': BookInstance.objects.all()
-    }
-
-    success_url = reverse_lazy('catalog:index')
-    if request.method == "POST":
-        form = BorrowForm(request.POST or None)
-        if form.is_valid():
-            book_instance.id = BookInstance.objects.get(pk=pk)
-            book_instance.book = BookInstance.objects.get(book=book)
-            book_instance.borrower = request.user
-            book_instance.status = 'o'
-            book_borrowed_count = BookInstance.objects.filter(
-                owner=request.user).count()
-            if book_borrowed_count < 4:
-                book_instance = form.save(commit=False)
-                book_instance.save()
-            else:
-                print("Maximum limit reached!")
-
-            return redirect('catalog:book_list')
-
-    return render(request, 'catalog/book_list.html', {'form': form})
-
-
-class BorrowBookView(PermissionRequiredMixin, CreateView):
-    permission_required = 'login'
-    model = BookInstance
-    fields = '__all__'
-    template_name = 'catalog/borrow_form.html'
-    success_url = reverse_lazy('catalog:index')
+    def get(self, request, *args, **kwargs):
+        book_id = kwargs['pk']
+        available_books = BookInstance.objects.filter(
+            book__pk=book_id, status='a')
+        return render(request, 'catalog/book_borrow.html', {'available_books': available_books})
 
     def post(self, request, *args, **kwargs):
-        book_instance.id = BookInstance.objects.get(pk=pk)
-        book_instance.book = BookInstance.objects.get(book=book)
-        book_instance.borrower = request.user
-        book_instance.status = 'o'
-        book_instance = form.save(commit=False)
-        book_instance.save()
+        book_instance_id = request.POST['id']
+        obj = get_object_or_404(BookInstance, id=book_instance_id)
+        obj.status = 'r'
+        obj.borrower = request.user
+        # Maybe also update due_back data
+        # obj.due_back = ...
+        obj.save()
+        messages.success(request, "Your book is reserved.")
+        # I used the redirection to the same template
+        # But you probably want to send the user somewhere else
+        return HttpResponseRedirect(reverse('catalog:book_borrow', kwargs={'pk': 1}))
 
 
 class BookDetailView(DetailView):  # model_detail.html
     model = Book
+    slug_field = 'isbn'
+    slug_url_kwarg = 'isbn'
 
 
 class BookInstanceDetailView(DetailView):
@@ -149,3 +138,27 @@ class SearchView(ListView):
         else:
             result = None
         return result
+
+# TBC 
+# TEST VIEW
+def borrowBook(request, pk):
+    model = Book, BookInstance
+    slug_field = 'isbn'
+    slug_url_kwarg = 'isbn'
+    available_books = BookInstance.objects.filter(
+        book__pk=book_id, status='a')
+
+    def post(self, request, *args, **kwargs):
+        book_instance_id = request.POST['id']
+        obj = get_object_or_404(BookInstance, id=book_instance_id)
+        obj.status = 'r'
+        obj.borrower = request.user
+        # Maybe also update due_back data
+        # obj.due_back = ...
+        obj.save()
+        messages.success(request, "Your book is reserved.")
+        # I used the redirection to the same template
+        # But you probably want to send the user somewhere else
+        return render(request, 'catalog/book_borrow.html')
+
+    return render(request, 'catalog/book_borrow.html')

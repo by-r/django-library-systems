@@ -19,10 +19,11 @@ Library systems to utilize Django Framework, with basic CRUD functions and addit
 
 - Patron Management: The ability to add, update, and delete patron records, including contact information and borrowing history. [in progress]
 
-- Searching: The ability to search the catalog by various criteria, such as author, title, and subject. [in progress]
+- Searching: The ability to search the catalog by various criteria, such as author, title, and subject. [50% progress]
 
 - Reporting: The ability to generate reports on circulation statistics, popular materials, and overdue items. [in progress]
 
 ## Current Identified Problems
 
-- None
+- Search bar UI not fixed : needs proper class name
+- Cataloging: Borrowing/Returning needs to be completed 
