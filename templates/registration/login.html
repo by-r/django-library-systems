@@ -1,60 +1,41 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block title %}Login{% endblock title %}
+{% block title %}
+    Login
+{% endblock title %}
 {% block content %}
-
-    
-    
     <!-- Form logging-->
     <form method="post" action="{% url 'login' %}" class='container-fluid'>
         {% csrf_token %}
-        <div class="card card-container text-center container" style="width: 27rem">
-            
-
-            
+        <div class="card card-container text-center container"
+             style="width: 27rem">
             <table class="">
                 <tr class="row container">
                     <th class="card">SIGN IN</th>
                 </tr>
-            <div class="card-body container ">
-                <tr>
-                    <td class="">{{ form.username.label_tag }}</td>
-                    <td>{{ form.username }}</td>
-                    
-                </tr>
+                <div class="card-body container ">
+                    <tr>
+                        <td class="">{{ form.username.label_tag }}</td>
+                        <td>{{ form.username }}</td>
+                    </tr>
                     {% if next %}
                         <!-- Logged in but no access -->
-                        {% if user.is_authenticated %}
-                        <p>No permission!</p>
-                        {% endif %}
-                        
+                        {% if user.is_authenticated %}<p>No permission!</p>{% endif %}
                     {% endif %}
-                    
-                    
-                <tr>
-                    <td>{{ form.password.label_tag }}</td>
-                    <td>{{ form.password }}</td>
-                </tr>
-            </div>
-                    
+                    <tr>
+                        <td>{{ form.password.label_tag }}</td>
+                        <td>{{ form.password }}</td>
+                    </tr
+                </div>
             </table>
             <div class="container w-75 m-4">
                 <div class="row ">
                     <input class="btn btn-dark" type="submit" value="Login">
-                    <input type="hidden" name="next" value="{{next}}">
+                    <input type="hidden" name="next" value="{{ next }}">
                 </div>
-            </div>  
-                <!-- check for errors -->
-                {% if form.errors %}
-                    <p>Your username or password was incorrect. Try again.</p>    
-                    {% endif %}
-                
-
-                
+            </div>
+            <!-- check for errors -->
+            {% if form.errors %}<p>Your username or password was incorrect. Try again.</p>{% endif %}
         </div>
     </form>
-
-    
-    
 {% endblock content %}
