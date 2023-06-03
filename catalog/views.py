@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, CreateView, DetailView, ListView, TemplateView, CreateView, UpdateView, FormView
+from django.views.generic import View, CreateView, DetailView, ListView, TemplateView, CreateView, DeleteView, UpdateView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -52,13 +52,29 @@ class UserListView(PermissionRequiredMixin, ListView):
 @login_required
 def my_view(request):
     return render(request, 'catalog/my_view.html')
+
+
 # BOOK
-
-
-class BookCreateView(PermissionRequiredMixin, CreateView):  # model_form.html
+class BookBaseView(PermissionRequiredMixin, View): # Using base to reference other Views
     permission_required = 'login'
     model = Book
     fields = '__all__'
+    success_url = reverse_lazy('catalog:book_list')
+    
+class BookCreateView(BookBaseView, CreateView):  # model_form.html
+    """
+    Create View
+    """
+
+class BookDeleteView(BookBaseView, DeleteView):
+    """
+    Delete View
+    """
+
+class BookUpdateView(BookBaseView, UpdateView):
+    """
+    UpdateView
+    """
 
 
 class BorrowBookView(LoginRequiredMixin, View):
