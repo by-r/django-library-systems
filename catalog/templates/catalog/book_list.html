@@ -29,6 +29,7 @@
                         <td>
                             <a href="{% url 'catalog:book_delete' book.isbn %}">Delete</a>
                         </td>
+                        <td><a href="{% url 'catalog:book_update' book.isbn %} ">Update</a></td>
                     {% endif %}
                 </tr>
             {% empty %}

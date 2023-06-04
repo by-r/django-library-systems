@@ -59,6 +59,8 @@ class BookBaseView(PermissionRequiredMixin, View): # Using base to reference oth
     permission_required = 'login'
     model = Book
     fields = '__all__'
+    slug_field = 'isbn'
+    slug_url_kwarg = 'isbn'
     success_url = reverse_lazy('catalog:book_list')
     
 class BookCreateView(BookBaseView, CreateView):  # model_form.html
@@ -67,18 +69,17 @@ class BookCreateView(BookBaseView, CreateView):  # model_form.html
     """
 
 class BookDeleteView(BookBaseView, DeleteView):
-    slug_field = 'isbn'
-    slug_url_kwarg = 'isbn'
     """
     Delete View
     """
-
+    
 class BookUpdateView(BookBaseView, UpdateView):
     """
     UpdateView
     """
 
-class BookDetailView(BookBaseView, DetailView):  # model_detail.html
+class BookDetailView(DetailView):  # model_detail.html
+    model = Book
     slug_field = 'isbn'
     slug_url_kwarg = 'isbn'
 
@@ -106,6 +107,8 @@ class BorrowBookView(LoginRequiredMixin, View):
         # I used the redirection to the same template
         # But you probably want to send the user somewhere else
         return HttpResponseRedirect(reverse('catalog:book_borrow', kwargs={'pk': 1}))
+
+
 
 
 

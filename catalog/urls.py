@@ -9,7 +9,6 @@ urlpatterns = [
 
     #
     path("", views.index, name='index'),
-    path("book_create/", views.BookCreateView.as_view(), name="book_create"),
 
     # USER VIEW
     path("user/", views.UserListView.as_view(), name="user_list"),
@@ -17,15 +16,23 @@ urlpatterns = [
     path("my_view/", views.my_view, name="my_view"),
     path("signup/", views.SignUpCreateView.as_view(), name="signup"),
 
-
-
-
-    # BOOK LIST VIEW
+    # BOOK LIST VIEW - CRUD
+    
+    # CREATE
+    path("book_create/", views.BookCreateView.as_view(), name="book_create"),
+    
+    # READ
     path("book_list/", views.BookListView.as_view(), name="book_list"),
     path("book_list/book/<slug:isbn>/",
          views.BookDetailView.as_view(), name="book_detail"),
     path("book_list/book/book_detail/<int:pk>/",
          views.BookInstanceDetailView.as_view(), name="bookInstance_detail"),
+    
+    # UPDATE
+    path("book_list/book/update/<slug:isbn>/", views.BookUpdateView.as_view(), name="book_update"),
+    
+    
+    # DELETE
     path("book_list/book/delete/<slug:isbn>/", views.BookDeleteView.as_view(), name="book_delete"),
     
     # path("book_list/book/<int:pk>/borrow/",
