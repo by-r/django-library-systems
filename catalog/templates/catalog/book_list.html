@@ -10,6 +10,10 @@
                 <th>ISBN</th>
                 <th>Book</th>
                 <th>Genre</th>
+                {% if user.is_superuser %}
+                    <th></th>
+                    <th></th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -27,9 +31,13 @@
                     </td>
                     {% if user.is_superuser %}
                         <td>
-                            <a href="{% url 'catalog:book_delete' book.isbn %}">Delete</a>
+                            <a class="btn btn-danger"
+                               href="{% url 'catalog:book_delete' book.isbn %}">Delete</a>
                         </td>
-                        <td><a href="{% url 'catalog:book_update' book.isbn %} ">Update</a></td>
+                        <td>
+                            <a class="btn btn-success"
+                               href="{% url 'catalog:book_update' book.isbn %} ">Update</a>
+                        </td>
                     {% endif %}
                 </tr>
             {% empty %}

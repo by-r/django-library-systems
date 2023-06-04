@@ -53,6 +53,13 @@ class UserListView(PermissionRequiredMixin, ListView):
 def my_view(request):
     return render(request, 'catalog/my_view.html')
 
+# BOOK LIST - CATALOG MENU
+
+class BookListView(ListView):
+    model = Book, Genre
+    queryset = Book.objects.order_by('title')
+    paginate_by = 10
+    context_object_name = 'book_list'
 
 # BOOK
 class BookBaseView(PermissionRequiredMixin, View): # Using base to reference other Views
@@ -110,8 +117,6 @@ class BorrowBookView(LoginRequiredMixin, View):
 
 
 
-
-
 class BookInstanceDetailView(DetailView):
     model = BookInstance
 
@@ -124,13 +129,6 @@ class CheckoutBookListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user)
-
-
-class BookListView(ListView):
-    model = Book, Genre
-    queryset = Book.objects.order_by('title')
-    paginate_by = 10
-    context_object_name = 'book_list'
 
 
 class ReturnBookView(View):
