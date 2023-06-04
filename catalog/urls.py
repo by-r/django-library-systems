@@ -26,6 +26,8 @@ urlpatterns = [
          views.BookDetailView.as_view(), name="book_detail"),
     path("book_list/book/book_detail/<int:pk>/",
          views.BookInstanceDetailView.as_view(), name="bookInstance_detail"),
+    path("book_list/book/delete/<slug:isbn>/", views.BookDeleteView.as_view(), name="book_delete"),
+    
     # path("book_list/book/<int:pk>/borrow/",
     #     views.BorrowBookView.as_view(), name="book_borrow"),
     path("book_list/book/<int:pk>/return/",
