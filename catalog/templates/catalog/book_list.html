@@ -26,7 +26,9 @@
                         {% for genre in book.genre.all %}<div class="btn btn-outline-secondary">{{ genre.name }}</div>{% endfor %}
                     </td>
                     {% if user.is_superuser %}
-                    <td><a href="{% url 'catalog:book_delete' book.isbn %}">Delete</a></td>
+                        <td>
+                            <a href="{% url 'catalog:book_delete' book.isbn %}">Delete</a>
+                        </td>
                     {% endif %}
                 </tr>
             {% empty %}
