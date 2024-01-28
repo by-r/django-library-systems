@@ -25,7 +25,6 @@ body {
   max-width: 42em;
 }
 
-
 /*
  * Header
  */
@@ -56,13 +55,6 @@ body {
 
 img {
 	padding: 5px;
-}
-
-footer {
-	clear: both;
-	position: relative;
-	height: 200px;
-	margin-top: -200px;
 }
 
 .card-container {
